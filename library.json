@@ -1,0 +1,10 @@
+{
+  "name": "spObjectStore",
+  "description": "A templated class to store, retrieve and delete objects based on an id.",
+  "version": "2.0.0",
+  "dependencies":
+  {
+  },
+  "frameworks": "*",
+  "platforms": "*"
+}
