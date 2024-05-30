@@ -2,9 +2,8 @@
 
 ## What it is?
 
-A proper definition would be: a templated class to store, retrieve and delete objects based on an id.
-
-A better explanation is: this class is used to create an object for storing other objects, whereby
+A proper definition would be: a templated class to store, retrieve and delete objects based on an id.  
+A better explanation is: this class is used to create an object for storing other objects, whereby  
 - these other objects are of a specified class
 - such specified class being defined when creating the storage object
 
@@ -14,6 +13,7 @@ Examples:
 
 ## Why is it useful?
 
+change 3
 
 
 ## More details
@@ -34,6 +34,7 @@ and
         ...
     };
 
+
 It is important to have at least one class constructor without parameters, i.e. myObject(){..}, as 
 this is needed when the object is created with 
 
@@ -42,6 +43,7 @@ this is needed when the object is created with
 or
 
     myObjectobj = myObjectStore.getObj("newID", true);
+
 
 In case there are alternative object constructors with parameters, then the objects can be created also by providing the arguments with
 
@@ -63,6 +65,7 @@ For all three methods (addObj, getObj and setObj), the status returned with
     bool x = myObjectStore.getAdded();
 
 represents wether a new entry was added in the last function call.
+
 
 
 Delete an object from the store with

@@ -84,7 +84,10 @@
  * 
  */
 
-
+/*
+  Delete the above
+  
+*/
 
 #ifndef SPOBJECTSTORE_H_
 #define SPOBJECTSTORE_H_
