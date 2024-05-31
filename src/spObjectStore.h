@@ -1,93 +1,13 @@
 /**
- *    spObjectStore.h
+ * @file spObjectStore.h
+ * @author krokoreit (krokoreit@gmail.com)
+ * @brief a templated class to store, retrieve, delete and iterate through objects based on an id
+ * @version 2.0.0
+ * @date 2024-05-31
  * 
- *    Templated class to store, retrieve and delete objects based on an id
- * 
- *    Use with any class type like
- *        spObjectStore<myObject> myObjectStore;
- *    and 
- *        class myObject {
- *          String _text = "";
- *          uint32_t _number = 0;
- *           ...
- *          myObject();
- *          myObject(String text);
- *          myObject(String text, uint32_t number);
- *           ...
- *        };
- * 
- *    It is important to have at least one class constructor without parameters, i.e. myObject(){..}, as 
- *    this is needed when the object is created with 
- *        myObject *obj = myObjectStore.addObj("newID")
- *    or
- *        myObject *obj = myObjectStore.getObj("newID", true)
- * 
- *    In case there are alternative object constructors with parameters, then the objects can be created also by
- *    providing the arguments with
- *        myObject *obj = myObjectStore.addObj("newID", "my text", 1234)
- *    or
- *        myObject *obj = myObjectStore.getObj("newID", true, "my text", 1234)
- * 
- *    An alternative method to create or modify an new entry in the store is with
- *        myObjectStore.setObj("new_or_old_ID", obj)
- *    This will replace the object of an existing id or otherwise create a new entry
- * 
- *    For all three methods (addObj, getObj and setObj), the status returned with
- *        bool x = myObjectStore.getAdded() 
- *    represents wether a new entry was added in the last function call.
- *    
- *    Delete an object from the store with
- *        myObjectStore.deleteObj("newID");
- * 
- *    Delete all objects with
- *        myObjectStore.reset();
- * 
- *    To loop through the stored objects, use the forEach method(s) with
- *        myObjectStore.forEach(callback_function);
- *    whereby callback_function is either
- *      a)  bool callback_function(myObject *o) { .. }              // = for (value in store)
- *      b)  bool callback_function(String id, myObject *o) { .. }   // = for (key, value in store)
- *    Note that the callback_function must return a boolean, i.e. true to continue or false to stop looping
- * 
- *    The spObjectStore class is optimized to expand it's capacity in increments (default is 10), when 
- *    an entry is added and the current capacity is reached. This avoids the reallocation of memory and 
- *    copy / move operations of the stored objects each time a new object is added. However, it reserves 
- *    more memory space than actually occupied and could cause issues with large objects.
- *    The optimization can be adjusted in one or the other direction with
- *        myObjectStore.setCapaInc(num);
- *    I.e. a higher number in order to optimized speed over memory (many or frequent object additions) or
- *    a lower number to save on memory.
- *    The current increment value can be retrieved with
- *        int32_t num = myObjectStore.getCapaInc();
- * 
- *    Sorting objects by their id:
- *      There are three options on controlling the objects being sorted by their id (or not). This depends
- *      on the constructor used, i.e. either
- *        spObjectStore();  (unsorted)
- *        spObjectStore(bool sorted);  (if true, sorted by strcmp = A to Z)
- *        spObjectStore(sposCompareCB callback);  (sorted by whatever you do with key / id values comparison)
- * 
- *      Note that in case that spObjectStore is a member of another class, then it is initialized but cannot be
- *      declared in that class definition, e.g.
- *        class myClass{
- *          private:
- *            spObjectStore<myObject> myObjectStore;
- *            ...
- *          public:
- *            myClass()
- *            ...
- *      In order to activate the sorting, the 2nd and 3rd contructor of spObjectStore should be directly linked
- *      in the class constructor, i.e.
- *        myClass::myClass() : myObjectStore(true) { .. } or
- *        myClass::myClass() : myObjectStore(std::bind(&myClass::compareIdsCB, this, std::placeholders::_1, std::placeholders::_2)) { .. }
- *      with the myClass::compareIdsCB function being of typedef sposCompareCB (= std::function<int(String, String)>)
+ * @copyright Copyright (c) 2024
  * 
  */
-
-/*
-  Delete the above
-  
-*/
 
 #ifndef SPOBJECTSTORE_H_
 #define SPOBJECTSTORE_H_
@@ -104,8 +24,6 @@
  *  - classes and their member functions can be separated into declaration and definition as per below 
  *  - templated vector as used below, cannot use std::vector<T>::iterator to loop
  *    using regular for loop and obj pointer instead
- *  - 
- * 
  * 
 */
 
@@ -118,8 +36,14 @@
  */
 
 
-// typedef for comparison function
+
+/**
+ * @brief typedef for comparison function
+ *        int myCmpFunc(String A, String B);
+ *        return value: <0 = A has lower value, 0 = same, >0 = A has higher value 
+ */
 typedef std::function<int(String, String)> sposCompareCB;
+
 
 
 template <class T>
