@@ -1,9 +1,7 @@
 <style
-type="text/css">
+  type="text/css">
 h1 {color:red;}
-p:has(+ul) {
-    margin-bottom: 0px;
-}
+p:has(+ul) {margin-bottom: 0px;}
 </style>
 
 # spObjectStore Library
