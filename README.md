@@ -14,7 +14,8 @@ The storage container can be created to store objects unsorted, sorted in A to Z
 
 Enjoy
 
-krokoreit <img>
+krokoreit  
+<img src="assets/krokoreit03_Github.png" width="60"/>
 
 
 ## Why is it useful?
