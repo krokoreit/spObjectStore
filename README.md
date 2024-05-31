@@ -1,7 +1,6 @@
 <style
   type="text/css">
 h1 {color:red;}
-p {margin-bottom: 0px;}
 </style>
 
 # spObjectStore Library
