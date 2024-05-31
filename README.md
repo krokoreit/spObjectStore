@@ -1,6 +1,6 @@
 # spObjectStore Library
 
-<style 
+<style
   type="text/css">
 h1 {color:red;}
 p {margin-bottom:0px;}
