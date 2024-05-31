@@ -1,12 +1,12 @@
 # spObjectStore Library
 
 This library provides a container object to store, retrieve or interate through objects based on an identifier, whereby  
-/- these objects being stored are of one specific class  
-/- and such class being defined when creating the storage container object
+\- these objects being stored are of one specific class  
+\- and such class being defined when creating the storage container object
 
 As the storage container is designed as a templated class, meaning any class type of objects can be stored, all you need to consider is  
-/- the design and functions of the class to be stored  
-/- the identifier strings used to id your objects
+\- the design and functions of the class to be stored  
+\- the identifier strings used to id your objects
 
 The storage container can be created to store objects without sorting, sorting them in A to Z order or sorting them by a custom callback function, which allows you to sort items in any way you want.
 
@@ -176,9 +176,9 @@ or
 with - in the second example - the ```myClass::compareIdsCB()``` function bound with ```std::bind()``` and two placeholders.
 
 
-Any callback function used has to match ```typedef sposCompareCB``` (which is std::function<int(String, String)>) and return the result of comparing the strings A and B as
-- &lt;0 when A has a lower value
-- 0 when A and B are the same
-- &gt;0 when A has a higher value
+Any callback function used has to match ```typedef sposCompareCB``` (which is std::function<int(String, String)>) and return the result of comparing the strings A and B as  
+\- &lt;0 when A has a lower value  
+\- 0 when A and B are the same  
+\- &gt;0 when A has a higher value
 
 
