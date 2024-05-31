@@ -1,16 +1,18 @@
 {
   "name": "spObjectStore",
   "description": "A templated class to store, retrieve, delete and iterate through objects based on an id.",
+  "keywords": "store, vector, objects, container, krokoreit",
   "version": "2.0.0",
   "authors":
   {
     "name": "krokoreit",
+    "email": "krokoreit@gmail.com",
     "maintainer": true
   },
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/krokoreitv/spObjectStore.git"
+    "url": "https://github.com/krokoreit/spObjectStore.git"
   },
   "dependencies":
   {
