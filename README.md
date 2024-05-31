@@ -1,18 +1,12 @@
 # spObjectStore Library
 
-<style type="text/css">
-h1 {color:red;}
-p {margin-bottom:0px;}
-</style>
+This library provides a container object to store, retrieve or interate through objects based on an identifier, whereby  
+/- these objects being stored are of one specific class  
+/- and such class being defined when creating the storage container object
 
-
-This library provides a container object to store, retrieve or interate through objects based on an identifier, whereby
-- these objects being stored are of one specific class
-- and such class being defined when creating the storage container object
-
-As the storage container is designed as a templated class, meaning any class type of objects can be stored, all you need to consider is
-- the design and functions of the class to be stored
-- the identifier strings used to id your objects
+As the storage container is designed as a templated class, meaning any class type of objects can be stored, all you need to consider is  
+/- the design and functions of the class to be stored  
+/- the identifier strings used to id your objects
 
 The storage container can be created to store objects without sorting, sorting them in A to Z order or sorting them by a custom callback function, which allows you to sort items in any way you want.
 
