@@ -109,6 +109,16 @@
  * 
 */
 
+
+/**
+ * ToDo:
+ * 
+ *  - addObj with 1st variadict being an object of class T to act like setObj
+ * 
+ */
+
+
+// typedef for comparison function
 typedef std::function<int(String, String)> sposCompareCB;
 
 
