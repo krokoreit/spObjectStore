@@ -1,7 +1,7 @@
 <style
   type="text/css">
 h1 {color:red;}
-p:has(+ul) {margin-bottom: 0px;}
+p {margin-bottom: 0px;}
 </style>
 
 # spObjectStore Library
