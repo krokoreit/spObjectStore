@@ -1,15 +1,21 @@
 # spObjectStore Library
 
-## What it is?
+## Intro
 
-A proper definition would be: a templated class to store, retrieve and delete objects based on an id.  
-A better explanation is: this class is used to create an object for storing other objects, whereby  
-- these other objects are of a specified class
-- such specified class being defined when creating the storage object
+A container object to store, retrieve or interate through objects based on an identifier, whereby  
+- these other objects are of one specific class
+- and such class being defined when creating the storage container object
 
-Examples:
-- spObjectStore<String> myStringStore; // stores String objects
-- spObjectStore<myObject> myObjectStore; // stores objects of myObject class
+As the storage container is designed as a templated class, meaning any class type of objects can be stored, all you need to condider is
+- the design and functions of the class to be stored
+- the identifier strings used to id your objects
+
+The storage container can be created to store objects unsorted, sorted in A to Z order or sorted by a custom callback function, with which you can sort in any way you want.
+
+Enjoy
+
+krokoreit <img>
+
 
 ## Why is it useful?
 
@@ -18,12 +24,16 @@ change 3 and more
 
 ## More details
 
+### 
 Use with any class type like
 
-    spObjectStore<myObject> myObjectStore;
-    
+```cpp
+    spObjectStore<myObject> myObjectStore; // stores objects of myObject class
+```
+
 and
 
+```cpp
     class myObject {
       String _text = "";
       uint32_t _number = 0;
@@ -33,36 +43,48 @@ and
       myObject(String text, uint32_t number);
         ...
     };
-
+```
 
 It is important to have at least one class constructor without parameters, i.e. myObject(){..}, as 
 this is needed when the object is created with 
 
+```cpp
     myObjectobj = myObjectStore.addObj("newID");
+```
 
 or
 
+```cpp
     myObjectobj = myObjectStore.getObj("newID", true);
+```
 
 
 In case there are alternative object constructors with parameters, then the objects can be created also by providing the arguments with
 
+```cpp
     myObjectobj = myObjectStore.addObj("newID", "my text", 1234);
+```
 
 or
 
+```cpp
     myObjectobj = myObjectStore.getObj("newID", true, "my text", 1234);
+```
 
 An alternative method to create or modify an new entry in the store is with
 
+```cpp
     myObjectStore.setObj("new_or_old_ID", obj);
+```
 
 This will replace the object of an existing id or otherwise create a new entry
 
 
 For all three methods (addObj, getObj and setObj), the status returned with
 
+```cpp
     bool x = myObjectStore.getAdded();
+```
 
 represents wether a new entry was added in the last function call.
 
@@ -70,14 +92,22 @@ represents wether a new entry was added in the last function call.
 
 Delete an object from the store with
 
+```cpp
     myObjectStore.deleteObj("newID");
+```
 
 Delete all objects with
 
+```cpp
     myObjectStore.reset();
+```
 
 To loop through the stored objects, use the forEach method(s) with
+
+```cpp
     myObjectStore.forEach(callback_function);
+```
+
 whereby callback_function is either
   a)  bool callback_function(myObjecto) { .. }              // = for (value in store)
   b)  bool callback_function(String id, myObjecto) { .. }   // = for (key, value in store)
@@ -88,11 +118,16 @@ an entry is added and the current capacity is reached. This avoids the reallocat
 copy / move operations of the stored objects each time a new object is added. However, it reserves 
 more memory space than actually occupied and could cause issues with large objects.
 The optimization can be adjusted in one or the other direction with
+```cpp
     myObjectStore.setCapaInc(num);
+```
+
 I.e. a higher number in order to optimized speed over memory (many or frequent object additions) or
 a lower number to save on memory.
 The current increment value can be retrieved with
+```cpp
     int32_t num = myObjectStore.getCapaInc();
+```
 
 Sorting objects by their id:
   There are three options on controlling the objects being sorted by their id (or not). This depends
