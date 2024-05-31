@@ -1,10 +1,10 @@
 # spObjectStore Library
 
-<style
-  type="text/css">
+<style type="text/css">
 h1 {color:red;}
 p {margin-bottom:0px;}
 </style>
+
 
 This library provides a container object to store, retrieve or interate through objects based on an identifier, whereby
 - these objects being stored are of one specific class
