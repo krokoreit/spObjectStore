@@ -1,20 +1,28 @@
+<style
+type="text/css">
+h1 {color:red;}
+p:has(+ul) {
+    margin-bottom: 0px;
+}
+</style>
+
 # spObjectStore Library
 
-This library provides a container object to store, retrieve or interate through objects based on an identifier, whereby  
-&#8277; these other objects are of one specific class  
-&#8277; and such class being defined when creating the storage container object
+This library provides a container object to store, retrieve or interate through objects based on an identifier, whereby
+- these objects being stored are of one specific class
+- and such class being defined when creating the storage container object
 
-As the storage container is designed as a templated class, meaning any class type of objects can be stored, all you need to consider is  
-&#8277; the design and functions of the class to be stored  
-&#8277; the identifier strings used to id your objects
+As the storage container is designed as a templated class, meaning any class type of objects can be stored, all you need to consider is
+- the design and functions of the class to be stored
+- the identifier strings used to id your objects
 
 The storage container can be created to store objects without sorting, sorting them in A to Z order or sorting them by a custom callback function, which allows you to sort items in any way you want.
 
 
 Enjoy
 
-krokoreit  
-<img src="assets/krokoreit03_Github.png" width="60"/>
+&emsp;krokoreit  
+&emsp;&emsp;&emsp;<img src="assets/krokoreit03_Github.png" width="60"/>
 
 
 
@@ -32,13 +40,14 @@ and
 
 ```cpp
     class myObject {
-      String _text = "";
-      uint32_t _number = 0;
-        ...
-      myObject();
-      myObject(String text);
-      myObject(String text, uint32_t number);
-        ...
+      public:
+        String _text = "";
+        uint32_t _number = 0;
+          ...
+        myObject();
+        myObject(String text);
+        myObject(String text, uint32_t number);
+          ...
     };
 ```
 
@@ -112,28 +121,30 @@ To delete all objects, use
 To loop through the stored objects, use the container's ```forEach()``` method(s) with
 
 ```cpp
-    myObjectStore.forEach(callback_function);
+    myObjectStore.forEach(iterate_CB);
 ```
 
-whereby callback_function is either  
+whereby the callback function is either  
 ```cpp
-    bool callback_function(myObject obj) { .. }              // = for each object in the container
+    bool iterate_CB(myObject obj) { .. }  
+    // calling with each object in the container
 ```
 or
 
 ```cpp
-    bool callback_function(String id, myObject obj) { .. }   // = for each identifier, object pair in the container
+    bool iterate_CB(String id, myObject obj) { .. }  
+    // calling with each identifier & object pair in the container
 ```
 
-Note that the callback_function must return a boolean, i.e. true to continue or false to stop looping.
+Note that the callback function must return a boolean, i.e. true to continue or false to stop looping.
 
 ### Storage Capacity
-The spObjectStore class is optimized to expand it's capacity in increments (default is 10), when an entry is added and the current capacity is used up. This avoids the reallocation of memory and copy / move operations of the stored objects each time a new object is added, i.e. delays this process to every 10th addition of an object. However, using an increment > 1 reserves more memory space than actually occupied and could cause issues with large objects.  
+The spObjectStore class is optimized to expand it's capacity in increments (default is 10) whenever an entry is added and the current capacity is used up. This avoids the reallocation of memory and copy / move operations of the stored objects each time a new object is added, i.e. it delays thissuch costly process to every 10th addition of an object. However, using an increment > 1 reserves more memory space than actually needed at that point in time and could cause issues with large objects.  
 The optimization can be adjusted in one or the other direction with 
 ```cpp
     myObjectStore.setCapaInc(num);
 ```
-Use a higher number in order to optimize speed over memory (i.e. when having many or frequent object additions) or a lower number to save on memory.  
+Use a higher number in order to optimize speed over memory (i.e. when having many or frequent object additions) or a lower number to save on memory (i.e. when dealing with large objects).  
 The current increment value can be retrieved with
 ```cpp
     int32_t num = myObjectStore.getCapaInc();
@@ -142,9 +153,9 @@ The current increment value can be retrieved with
 ### Sorting
 
 There are three options on controlling the objects being sorted by their id (or not). This depends on the constructor used, i.e. either
-- ```spObjectStore();```  (unsorted)
-- ```spObjectStore(bool sorted);```  (if true, sorted by strcmp = A to Z)
-- ```spObjectStore(sposCompareCB callback);```  (sorted by whatever you do with key / id values comparison)
+```spObjectStore();```  (unsorted)
+```spObjectStore(bool sorted);```  (if true, sorted by strcmp = A to Z)
+```spObjectStore(sposCompareCB callback);```  (sorted by whatever you do with key / id values comparison)
 
 Note that in case that spObjectStore is a member of another class, then it is initialized but cannot be declared in that class definition, e.g.
 ```cpp
