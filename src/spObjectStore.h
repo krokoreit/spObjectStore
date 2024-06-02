@@ -45,7 +45,10 @@
 typedef std::function<int(String, String)> sposCompareCB;
 
 
-
+/**
+ * @brief the object storage class
+ * @tparam T  class typename of objects to store
+ */
 template <class T>
 class spObjectStore {
    private:
