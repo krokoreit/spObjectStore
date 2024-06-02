@@ -25,7 +25,8 @@ Enjoy
 Use with any class type like
 
 ```cpp
-    spObjectStore<myObject> myObjectStore; // stores objects of 'myObject' class
+    // stores objects of 'myObject' class
+    spObjectStore<myObject> myObjectStore;
 ```
 
 and
@@ -118,14 +119,14 @@ To loop through the stored objects, use the container's ```forEach()``` method(s
 
 whereby the callback function is either  
 ```cpp
-    bool iterate_CB(myObject obj) { .. }  
     // calling with each object in the container
+    bool iterate_CB(myObject obj) { .. }  
 ```
 or
 
 ```cpp
-    bool iterate_CB(String id, myObject obj) { .. }  
     // calling with each identifier & object pair in the container
+    bool iterate_CB(String id, myObject obj) { .. }  
 ```
 
 Note that the callback function must return a boolean, i.e. true to continue or false to stop looping.
