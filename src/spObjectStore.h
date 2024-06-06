@@ -9,9 +9,10 @@
  * 
  */
 
+
 /**
  * Version history:
- * v1 original develoment for use in platformio arduino on an ESP project
+ * v1 original develoment for use in platformio / arduino on an ESP32 project
  * v2 changed to standard C++ 
  *  
  */
@@ -26,6 +27,7 @@
 #include <string.h>
 #include <functional>
 #include <vector>
+
 
 
 /**
@@ -63,7 +65,8 @@ typedef std::function<int(std::string, std::string)> sposCompareCB;
  * @tparam T  class typename of objects to store
  */
 template <class T>
-class spObjectStore {
+class spObjectStore
+{
    private:
     std::vector<std::string> _keys;
     std::vector<T> _objects;
@@ -93,30 +96,45 @@ class spObjectStore {
     void forEach(forEach_KV_callback callback);
     int32_t getCapaInc();
     void setCapaInc(int32_t newInc);
-    bool getAdded();
-
+    size_t getSize();
+    bool isAdded();
+    bool isSorted();
 };
 
 
 
-// Function definitions must always be with leading "template <class T>"
+/*    PUBLIC    PUBLIC    PUBLIC    PUBLIC    
+
+      xxxxxxx   xx    xx  xxxxxxx   xx           xx      xxxxxx 
+      xx    xx  xx    xx  xx    xx  xx           xx     xx    xx
+      xx    xx  xx    xx  xx    xx  xx           xx     xx      
+      xxxxxxx   xx    xx  xxxxxxx   xx           xx     xx      
+      xx        xx    xx  xx    xx  xx           xx     xx      
+      xx        xx    xx  xx    xx  xx           xx     xx    xx
+      xx         xxxxxx   xxxxxxx   xxxxxxxx     xx      xxxxxx 
+     
+
+      PUBLIC    PUBLIC    PUBLIC    PUBLIC    */
 
 
-
-/*    PUBLIC    PUBLIC    PUBLIC    PUBLIC    */
-
+/**
+ * constructors
+ */
 template <class T>
-spObjectStore<T>::spObjectStore(){
+spObjectStore<T>::spObjectStore()
+{
   _sorted = false;
 }
 
 template <class T>
-spObjectStore<T>::spObjectStore(bool sorted){
+spObjectStore<T>::spObjectStore(bool sorted)
+{
   _sorted = true;
 }
 
 template <class T>
-spObjectStore<T>::spObjectStore(sposCompareCB callback){
+spObjectStore<T>::spObjectStore(sposCompareCB callback)
+{
   _sorted = true;
   _compareCB = callback;
 }
@@ -129,10 +147,11 @@ spObjectStore<T>::spObjectStore(sposCompareCB callback){
  * 
  * @param id  id of the object to 
  * @param args optional arguments to construct T
- * @return T*
+ * @return T* pointer to object stored
  */
 template<class T> template<class... Vs>
-T* spObjectStore<T>::addObj(std::string id, Vs ...args) {
+T* spObjectStore<T>::addObj(std::string id, Vs ...args)
+{
   setAdded(indexOfId(id) == -1);
   if (_added){        
     _keys.insert(_keys.begin() + _index, id);
@@ -156,10 +175,11 @@ T* spObjectStore<T>::addObj(std::string id, Vs ...args) {
  * @param id 
  * @param addIfNeeded optional to create object in case it does not exist yet
  * @param args optional arguments to construct T
- * @return T* 
+ * @return T* pointer to object stored 
  */
 template<class T> template<class... Vs>
-T* spObjectStore<T>::getObj(std::string id, bool addIfNeeded, Vs... args) {
+T* spObjectStore<T>::getObj(std::string id, bool addIfNeeded, Vs... args)
+{
   if (indexOfId(id) > -1){
     setAdded(false);
     return &_objects[_index];
@@ -184,7 +204,8 @@ T* spObjectStore<T>::getObj(std::string id, bool addIfNeeded, Vs... args) {
  * @param newObj the object of class T to store
  */
 template <class T>
-void spObjectStore<T>::setObj(std::string id, T newObj){
+void spObjectStore<T>::setObj(std::string id, T newObj)
+{
   setAdded(indexOfId(id) == -1);
   if (_added){
     _keys.insert(_keys.begin() + _index, id);
@@ -195,16 +216,15 @@ void spObjectStore<T>::setObj(std::string id, T newObj){
   }
 }
 
-
 /**
  * @brief Delete object with given id and returns success
  * 
  * @param id 
- * @return true 
- * @return false 
+ * @return true / false 
  */
 template <class T>
-bool spObjectStore<T>::deleteObj(std::string id) {
+bool spObjectStore<T>::deleteObj(std::string id)
+{
   if (indexOfId(id) == -1){
     return false;
   }
@@ -213,17 +233,16 @@ bool spObjectStore<T>::deleteObj(std::string id) {
   return true;
 }
 
-
 /**
- * @brief Delete all elements
+ * @brief Delete all objects
  * 
  */
 template <class T>
-void spObjectStore<T>::reset() {
+void spObjectStore<T>::reset()
+{
   _keys.clear();
   _objects.clear();
 }
-
 
 /**
  * @brief loop through all entries and call function callback(*obj) = with value
@@ -231,7 +250,8 @@ void spObjectStore<T>::reset() {
  * @param callback 
  */
 template <class T>
-void spObjectStore<T>::forEach(forEach_V_callback callback) {
+void spObjectStore<T>::forEach(forEach_V_callback callback)
+{
   size_t count = _objects.size();
   for (size_t i = 0; i < count; i++) {
     if (callback(&_objects.at(i)) == false){
@@ -246,7 +266,8 @@ void spObjectStore<T>::forEach(forEach_V_callback callback) {
  * @param callback 
  */
 template <class T>
-void spObjectStore<T>::forEach(forEach_KV_callback callback) {
+void spObjectStore<T>::forEach(forEach_KV_callback callback)
+{
   size_t count = _objects.size();
   for (size_t i = 0; i < count; i++) {
     if (callback(_keys[i] , &_objects.at(i)) == false){
@@ -261,7 +282,8 @@ void spObjectStore<T>::forEach(forEach_KV_callback callback) {
  * @return int32_t value of increment
  */
 template <class T>
-int32_t spObjectStore<T>::getCapaInc(){
+int32_t spObjectStore<T>::getCapaInc()
+{
   return _capaInc;
 }
 
@@ -271,33 +293,66 @@ int32_t spObjectStore<T>::getCapaInc(){
  * @param newInc value of new increment
  */
 template <class T>
-void spObjectStore<T>::setCapaInc(int32_t newInc){
+void spObjectStore<T>::setCapaInc(int32_t newInc)
+{
   if (newInc > 1){
     _capaInc = newInc;
   }
 }
 
-
+/**
+ * @brief returns the number of objects in the store
+ * 
+ * @return size_t number
+ */
+template <class T>
+size_t spObjectStore<T>::getSize()
+{
+  return _keys.size();
+}
 
 /**
  * @brief returns the status of last call to addObj, getObj and setObj with regard to a new 
  *        entry having been added 
  * 
  * @tparam T 
- * @return true 
- * @return false 
+ * @return true / false 
  */
 template <class T>
-bool spObjectStore<T>::getAdded(){
+bool spObjectStore<T>::isAdded()
+{
   return _added;
+}
+
+/**
+ * @brief returns whether or not the store is sorted 
+ * 
+ * @tparam T 
+ * @return true / false 
+ */
+template <class T>
+bool spObjectStore<T>::isSorted()
+{
+  return _sorted;
 }
 
 
 
-/*    PRIVATE    PRIVATE    PRIVATE    PRIVATE     */
+
+/*    PRIVATE    PRIVATE    PRIVATE    PRIVATE
+
+      xxxxxxx   xxxxxxx      xx     xx    xx     xx     xxxxxxxx  xxxxxxxx
+      xx    xx  xx    xx     xx     xx    xx    xxxx       xx     xx      
+      xx    xx  xx    xx     xx     xx    xx   xx  xx      xx     xx      
+      xxxxxxx   xxxxxxx      xx      xx  xx   xx    xx     xx     xxxxxxx    
+      xx        xx    xx     xx      xx  xx   xxxxxxxx     xx     xx    
+      xx        xx    xx     xx       xxxx    xx    xx     xx     xx      
+      xx        xx    xx     xx        xx     xx    xx     xx     xxxxxxxx
+     
+
+      PRIVATE    PRIVATE    PRIVATE    PRIVATE    */
 
 
-// lower bound implementation, see https://en.cppreference.com/w/cpp/algorithm/lower_bound 
 
 
 /**
@@ -308,7 +363,8 @@ bool spObjectStore<T>::getAdded(){
  * @return int32_t index 
  */
 template <class T>
-int32_t spObjectStore<T>::indexOfId(std::string &id){
+int32_t spObjectStore<T>::indexOfId(std::string &id)
+{
   size_t count = _keys.size();
   // we already worked on it?
   if ((_index > -1) && (_index < count) && (_keys[_index] == id)){
@@ -356,9 +412,15 @@ int32_t spObjectStore<T>::indexOfId(std::string &id){
   return -1;
 }
 
-
+/**
+ * @brief set _added status and if - if needed - expand vectors' capacity
+ * 
+ * @tparam T 
+ * @param added 
+ */
 template <class T>
-void spObjectStore<T>::setAdded(bool added){
+void spObjectStore<T>::setAdded(bool added)
+{
   // if already false, return
   if (!added && !_added){
     return;
