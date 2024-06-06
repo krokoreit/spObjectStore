@@ -46,39 +46,69 @@ and
 
 ### Adding Objects
 
+
+There are three ways to add objects
+ <ol type="1">
+  <li>create and add the object in one shot with an id only (and - if required - set other object properties later)  
+In this case it is important that the class of objects to store has one constructor without parameters, i.e. myObject(){..}, as this constructor is called indirectly by calling the container's functions</br>
+<code>
+    myObject obj = myObjectStore.addObj("newID");
+</code></br>
+  or</br>
+<code>
+    myObject obj = myObjectStore.getObj("newID", true);
+</code></br>
+Note that <code>getObj()</code> function is used with the second parameter 'addIfNeeded' set to true, which will create and add the object before returning it.</br>
+</li>
+  <li>create and add the object in one shot with an id and the object's properties</br>
+In this case and alternative object constructors with parameters defined, the objects can be created also by providing the arguments when calling the container's functions like</br>
+<code>
+    myObject obj = myObjectStore.addObj("newID", "my text", 1234);
+</code></br>
+or</br>
+<code>
+    myObject obj = myObjectStore.getObj("newID", true, "my text", 1234);
+</code></br>
+</li>
+  <li>create the object and then place it into the container</br>
+<code>
+    myObject obj("my text", 1234);
+    myObjectStore.setObj("new_or_old_ID", obj);
+</code></br>
+The container's ```setObj()``` function will replace the object of an existing id or otherwise create a new entry.
+</li>
+</ol></br>
+
 There are three ways to add objects
 
 1) create and add the object in one shot with an id only (and - if required - set other object properties later)  
 In this case it is important that the class of objects to store has one constructor without parameters, i.e. myObject(){..}, as this constructor is called indirectly by calling the container's functions  
-
   ```cpp
-    myObjectobj = myObjectStore.addObj("newID");
-  ```  
+    myObject obj = myObjectStore.addObj("newID");
+  ``` 
   or 
-
-
 ```cpp
-    myObjectobj = myObjectStore.getObj("newID", true);
+    myObject obj = myObjectStore.getObj("newID", true);
 ```
 Note that ```getObj()``` function is used with the second parameter 'addIfNeeded' set to true, which will create and add the object before returning it.
-
 
 2) create and add the object in one shot with an id and the object's properties  
 In this case and alternative object constructors with parameters defined, the objects can be created also by providing the arguments when calling the container's functions like
 
 ```cpp
-    myObjectobj = myObjectStore.addObj("newID", "my text", 1234);
+    myObject obj = myObjectStore.addObj("newID", "my text", 1234);
 ```
 
 or
 
 ```cpp
-    myObjectobj = myObjectStore.getObj("newID", true, "my text", 1234);
+    myObject obj = myObjectStore.getObj("newID", true, "my text", 1234);
 ```
 
 3) create the object and then place it into the container  
 
 ```cpp
+    myObject obj("my text", 1234);
     myObjectStore.setObj("new_or_old_ID", obj);
 ```
 

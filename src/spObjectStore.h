@@ -42,14 +42,6 @@
  * 
 */
 
-/**
- * ToDo:
- * 
- *  - addObj with 1st variadict being an object of class T to act like setObj
- * 
- */
-
-
 
 /**
  * @brief typedef for comparison function
