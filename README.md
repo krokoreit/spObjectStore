@@ -17,8 +17,6 @@ Enjoy
 &emsp;&emsp;&emsp;<img src="assets/krokoreit03_Github.png" width="60"/>
 
 
-
-
 ## Usage & API
 
 ### Storage Container & Class of Objects to store
@@ -128,60 +126,60 @@ Note that the callback function must return a boolean, i.e. true to continue or 
 </br>
 
 ### Storage Capacity
-The spObjectStore class is optimized to expand it's capacity in increments (default is 10) whenever an entry is added and the current capacity is used up. This avoids the reallocation of memory and copy / move operations of the stored objects each time a new object is added, i.e. it delays thissuch costly process to every 10th addition of an object. However, using an increment > 1 reserves more memory space than actually needed at that point in time and could cause issues with large objects.  
-The optimization can be adjusted in one or the other direction with 
+The spObjectStore class is optimized to expand it's capacity in increments (default is 10) whenever an entry is added and the current capacity is used up. This avoids the reallocation of memory and copy / move operations of the stored objects each time a new object is added, i.e. it delays this costly process to every 10th addition of an object. However, using an increment > 1 reserves more memory space than actually needed at that point in time and could cause issues with values.</br></br>The optimization can be adjusted in one or the other direction with 
 ```cpp
-    myObjectStore.setCapaInc(num);
+myObjectStore.setCapaInc(num);
 ```
-Use a higher number in order to optimize speed over memory (i.e. when having many or frequent object additions) or a lower number to save on memory (i.e. when dealing with large objects).  
-The current increment value can be retrieved with
+Use a higher number in order to optimize speed over memory (i.e. when having many or frequent object additions) or a lower number to save on memory.</br></br>The current increment value can be retrieved with
 ```cpp
-    int32_t num = myObjectStore.getCapaInc();
+int32_t num = myObjectStore.getCapaInc();
 ```
 
 </br>
 
 ### Sorting
 
-There are three options on controlling the objects being sorted by their id (or not). This depends on the constructor used, i.e. either
-```spObjectStore();```  (unsorted)
-```spObjectStore(bool sorted);```  (if true, sorted by strcmp = A to Z)
-```spObjectStore(sposCompareCB callback);```  (sorted by whatever you do with key / id values comparison)
+There are three options on controlling the objects being sorted by their id (or not). This depends on the constructor used, i.e. either  
+```spObjectStore();```  (unsorted)  
+```spObjectStore(bool sorted);```  (if true, sorted by strcmp = A to Z)  
+```spObjectStore(sposCompareCB callback);```  (sorted by whatever you do with key / id values comparison)  
 
-Note that in case that spObjectStore is a member of another class, then it is initialized but cannot be declared in that class definition, e.g.
+Note that in the case of spObjectStore being a member of another class, it is initialized in but cannot be declared in that class definition, e.g.
 ```cpp
-  class myClass{
-    private:
-      spObjectStore<myObject> myObjectStore;
-      ...
-    public:
-      myClass()
-      ...
-  }
+class myClass{
+  private:
+    spObjectStore<myObject> myObjectStore;
+    ...
+  public:
+    myClass()
+    ...
+}
 ```
 
 In order to activate the sorting, the 2nd and 3rd contructor option of spObjectStore should be directly linked in the owner's class constructor, i.e.
 ```cpp
-    myClass::myClass() : myObjectStore(true) {
-      .. 
-    }
+myClass::myClass() : myObjectStore(true) {
+  .. 
+}
 ``` 
 or
 ```cpp
-    myClass::myClass() : myObjectStore(std::bind(&myClass::compareIdsCB, this, std::placeholders::_1, std::placeholders::_2)) { 
-      ..
-    }
+myClass::myClass() : myObjectStore(std::bind(&myClass::compareIdsCB, this, std::placeholders::_1, std::placeholders::_2)) { 
+  ..
+}
 ```
 with - in the second example - the ```myClass::compareIdsCB()``` function bound with ```std::bind()``` and two placeholders.
 
 
-Any callback function used has to match ```typedef sposCompareCB``` (which is std::function<int(String, String)>) and return the result of comparing the strings A and B as  
-\- &lt;0 when A has a lower value  
-\- 0 when A and B are the same  
-\- &gt;0 when A has a higher value
+Any callback function used has to match ```typedef sposCompareCB``` (which is std::function<int(String, String)>) and has to return as a result of comparing the strings A and B
+|  return value  |   comparison result  |
+|:--------------:|:--------------------:|
+|       &lt;0       |   A has lower value  |
+|        0       |       A equal B      |
+|       &gt;0       |  A has higher value  |
 
 </br>
 
 ## Licence
-MIT licence
-
+MIT licence  
+Copyright &copy; 2024 krokoreit (krokoreit@gnail.com)
