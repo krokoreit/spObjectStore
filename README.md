@@ -52,22 +52,22 @@ There are three ways to add objects
 1) create and add the object in one shot with an id only (and - if required - set other object properties later)  
 In this case it is important that the class of objects to store has one constructor without parameters, i.e. myObject(){..}, as this constructor is called indirectly by calling the container's functions
     ```cpp
-    myObject obj = myObjectStore.addObj("newID");
+    myObject* pObj = myObjectStore.addObj("newID");
     ```
     or 
     ```cpp
-    myObject obj = myObjectStore.getObj("newID", true);
+    myObject* pObj = myObjectStore.getObj("newID", true);
     ```
     Note that ```getObj()``` function is used with the second parameter 'addIfNeeded' set to true, which will create and add the object before returning it.
 
 2) create and add the object in one shot with an id and the object's properties  
-In this case and alternative object constructors with parameters defined, the objects can be created also by providing the arguments when calling the container's functions like
+In this case and such alternative object constructors with parameters defined, the objects can be created also by providing the arguments when calling the container's functions like
     ```cpp
-    myObject obj = myObjectStore.addObj("newID", "my text", 1234);
+    myObject* pObj = myObjectStore.addObj("newID", "my text", 1234);
     ```
     or
     ```cpp
-    myObject obj = myObjectStore.getObj("newID", true, "my text", 1234);
+    myObject* pObj = myObjectStore.getObj("newID", true, "my text", 1234);
     ```
 
 3) create the object and then place it into the container
@@ -86,12 +86,21 @@ represents wether a new entry was added in the last function call.
 
 </br>
 
+### Retrieving Objects 
+
+Objects will be retrieved from the store with
+```cpp
+myObject* pObj = myObjectStore.getObj("findID");
+```
+which will return a pointer to the found object or a nullptr if the object with the given key does not exist. 
+
+</br>
+
 ### Deleting Objects 
 
 Objects will be deleted from the store with
-
 ```cpp
-myObjectStore.deleteObj("newID");
+myObjectStore.deleteObj("deleteID");
 ```
 
 To delete all objects, use
@@ -119,7 +128,7 @@ or
 
 ```cpp
 // calling with each identifier & object pair in the container
-bool iterate_CB(String id, myObject obj) { .. }  
+bool iterate_CB(String id, myObject* pObj) { .. }  
 ```
 Note that the callback function must return a boolean, i.e. true to continue or false to stop looping.
 
@@ -171,12 +180,12 @@ myClass::myClass() : myObjectStore(std::bind(&myClass::compareIdsCB, this, std::
 with - in the second example - the ```myClass::compareIdsCB()``` function bound with ```std::bind()``` and two placeholders.
 
 
-Any callback function used has to match ```typedef sposCompareCB``` (which is std::function<int(String, String)>) and has to return as a result of comparing the strings A and B
-|  return value  |   comparison result  |
+Any callback function used has to match ```typedef sposCompareCB``` (which is std::function<int(String, String)>) and has to return as a result of comparing the strings A and B:
+| return value | based on comparison result |
 |:--------------:|:--------------------:|
-|       &lt;0       |   A has lower value  |
-|        0       |       A equal B      |
-|       &gt;0       |  A has higher value  |
+| &lt;0 | A has lower value than B |
+| 0 | A equal B |
+| &gt;0 | A has higher value than B |
 
 </br>
 
