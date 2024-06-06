@@ -1,117 +1,185 @@
 # spObjectStore Library
 
-## What it is?
+This library provides a container object to store, retrieve or interate through objects based on an identifier, whereby  
+\- these objects being stored are of one specific class  
+\- and such class being defined when creating the storage container object
 
-A proper definition would be: a templated class to store, retrieve and delete objects based on an id.  
-A better explanation is: this class is used to create an object for storing other objects, whereby  
-- these other objects are of a specified class
-- such specified class being defined when creating the storage object
+As the storage container is designed as a templated class, meaning any class type of objects can be stored, all you need to consider is  
+\- the design and functions of the class to be stored  
+\- the identifier strings used to id your objects
 
-Examples:
-- spObjectStore<String> myStringStore; // stores String objects
-- spObjectStore<myObject> myObjectStore; // stores objects of myObject class
-
-## Why is it useful?
-
-change 3
+The storage container can be created to store objects without sorting, sorting them in A to Z order or sorting them by a custom callback function, which allows you to sort items in any way you want.
 
 
-## More details
+Enjoy
 
+&emsp;krokoreit  
+&emsp;&emsp;&emsp;<img src="assets/krokoreit03_Github.png" width="60"/>
+
+
+
+
+## Usage & API
+
+### Storage Container & Class of Objects to store
 Use with any class type like
 
+```cpp
+    // stores objects of 'myObject' class
     spObjectStore<myObject> myObjectStore;
-    
+```
+
 and
 
+```cpp
     class myObject {
-      String _text = "";
-      uint32_t _number = 0;
-        ...
-      myObject();
-      myObject(String text);
-      myObject(String text, uint32_t number);
-        ...
+      public:
+        String _text = "";
+        uint32_t _number = 0;
+          ...
+        myObject();
+        myObject(String text);
+        myObject(String text, uint32_t number);
+          ...
     };
+```
 
+### Adding Objects
 
-It is important to have at least one class constructor without parameters, i.e. myObject(){..}, as 
-this is needed when the object is created with 
+There are three ways to add objects
 
+1) create and add the object in one shot with an id only (and - if required - set other object properties later)  
+In this case it is important that the class of objects to store has one constructor without parameters, i.e. myObject(){..}, as this constructor is called indirectly by calling the container's functions  
+
+  ```cpp
     myObjectobj = myObjectStore.addObj("newID");
+  ```  
+  or 
 
-or
 
+```cpp
     myObjectobj = myObjectStore.getObj("newID", true);
+```
+Note that ```getObj()``` function is used with the second parameter 'addIfNeeded' set to true, which will create and add the object before returning it.
 
 
-In case there are alternative object constructors with parameters, then the objects can be created also by providing the arguments with
+2) create and add the object in one shot with an id and the object's properties  
+In this case and alternative object constructors with parameters defined, the objects can be created also by providing the arguments when calling the container's functions like
 
+```cpp
     myObjectobj = myObjectStore.addObj("newID", "my text", 1234);
+```
 
 or
 
+```cpp
     myObjectobj = myObjectStore.getObj("newID", true, "my text", 1234);
+```
 
-An alternative method to create or modify an new entry in the store is with
+3) create the object and then place it into the container  
 
+```cpp
     myObjectStore.setObj("new_or_old_ID", obj);
+```
 
-This will replace the object of an existing id or otherwise create a new entry
+The container's ```setObj()``` function will replace the object of an existing id or otherwise create a new entry.
 
 
-For all three methods (addObj, getObj and setObj), the status returned with
+For all three methods (```addObj()```, ```getObj()``` and ```setObj()```), the status returned with
 
-    bool x = myObjectStore.getAdded();
+```cpp
+    bool added = myObjectStore.getAdded();
+```
 
 represents wether a new entry was added in the last function call.
 
 
 
-Delete an object from the store with
+### Deleting Objects 
 
+Objects will be deleted from the store with
+
+```cpp
     myObjectStore.deleteObj("newID");
+```
 
-Delete all objects with
+To delete all objects, use
 
+```cpp
     myObjectStore.reset();
+```
 
-To loop through the stored objects, use the forEach method(s) with
-    myObjectStore.forEach(callback_function);
-whereby callback_function is either
-  a)  bool callback_function(myObjecto) { .. }              // = for (value in store)
-  b)  bool callback_function(String id, myObjecto) { .. }   // = for (key, value in store)
-Note that the callback_function must return a boolean, i.e. true to continue or false to stop looping
+### Iterate 
 
-The spObjectStore class is optimized to expand it's capacity in increments (default is 10), when 
-an entry is added and the current capacity is reached. This avoids the reallocation of memory and 
-copy / move operations of the stored objects each time a new object is added. However, it reserves 
-more memory space than actually occupied and could cause issues with large objects.
-The optimization can be adjusted in one or the other direction with
+To loop through the stored objects, use the container's ```forEach()``` method(s) with
+
+```cpp
+    myObjectStore.forEach(iterate_CB);
+```
+
+whereby the callback function is either  
+```cpp
+    // calling with each object in the container
+    bool iterate_CB(myObject obj) { .. }  
+```
+or
+
+```cpp
+    // calling with each identifier & object pair in the container
+    bool iterate_CB(String id, myObject obj) { .. }  
+```
+
+Note that the callback function must return a boolean, i.e. true to continue or false to stop looping.
+
+### Storage Capacity
+The spObjectStore class is optimized to expand it's capacity in increments (default is 10) whenever an entry is added and the current capacity is used up. This avoids the reallocation of memory and copy / move operations of the stored objects each time a new object is added, i.e. it delays thissuch costly process to every 10th addition of an object. However, using an increment > 1 reserves more memory space than actually needed at that point in time and could cause issues with large objects.  
+The optimization can be adjusted in one or the other direction with 
+```cpp
     myObjectStore.setCapaInc(num);
-I.e. a higher number in order to optimized speed over memory (many or frequent object additions) or
-a lower number to save on memory.
+```
+Use a higher number in order to optimize speed over memory (i.e. when having many or frequent object additions) or a lower number to save on memory (i.e. when dealing with large objects).  
 The current increment value can be retrieved with
+```cpp
     int32_t num = myObjectStore.getCapaInc();
+```
 
-Sorting objects by their id:
-  There are three options on controlling the objects being sorted by their id (or not). This depends
-  on the constructor used, i.e. either
-    spObjectStore();  (unsorted)
-    spObjectStore(bool sorted);  (if true, sorted by strcmp = A to Z)
-    spObjectStore(sposCompareCB callback);  (sorted by whatever you do with key / id values comparison)
+### Sorting
 
-  Note that in case that spObjectStore is a member of another class, then it is initialized but cannot be
-  declared in that class definition, e.g.
-    class myClass{
-      private:
-        spObjectStore<myObject> myObjectStore;
-        ...
-      public:
-        myClass()
-        ...
-  In order to activate the sorting, the 2nd and 3rd contructor of spObjectStore should be directly linked
-  in the class constructor, i.e.
-    myClass::myClass() : myObjectStore(true) { .. } or
-    myClass::myClass() : myObjectStore(std::bind(&myClass::compareIdsCB, this, std::placeholders::_1, std::placeholders::_2)) { .. }
-  with the myClass::compareIdsCB function being of typedef sposCompareCB (= std::function<int(String, String)>)
+There are three options on controlling the objects being sorted by their id (or not). This depends on the constructor used, i.e. either
+```spObjectStore();```  (unsorted)
+```spObjectStore(bool sorted);```  (if true, sorted by strcmp = A to Z)
+```spObjectStore(sposCompareCB callback);```  (sorted by whatever you do with key / id values comparison)
+
+Note that in case that spObjectStore is a member of another class, then it is initialized but cannot be declared in that class definition, e.g.
+```cpp
+  class myClass{
+    private:
+      spObjectStore<myObject> myObjectStore;
+      ...
+    public:
+      myClass()
+      ...
+  }
+```
+
+In order to activate the sorting, the 2nd and 3rd contructor option of spObjectStore should be directly linked in the owner's class constructor, i.e.
+```cpp
+    myClass::myClass() : myObjectStore(true) {
+      .. 
+    }
+``` 
+or
+```cpp
+    myClass::myClass() : myObjectStore(std::bind(&myClass::compareIdsCB, this, std::placeholders::_1, std::placeholders::_2)) { 
+      ..
+    }
+```
+with - in the second example - the ```myClass::compareIdsCB()``` function bound with ```std::bind()``` and two placeholders.
+
+
+Any callback function used has to match ```typedef sposCompareCB``` (which is std::function<int(String, String)>) and return the result of comparing the strings A and B as  
+\- &lt;0 when A has a lower value  
+\- 0 when A and B are the same  
+\- &gt;0 when A has a higher value
+
+
