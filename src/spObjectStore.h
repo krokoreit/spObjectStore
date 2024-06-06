@@ -3,11 +3,19 @@
  * @author krokoreit (krokoreit@gmail.com)
  * @brief a templated class to store, retrieve, delete and iterate through objects based on an id
  * @version 2.0.0
- * @date 2024-05-31
+ * @date 2024-06-06
  * 
  * @copyright Copyright (c) 2024
  * 
  */
+
+/**
+ * Version history:
+ * v1 original develoment for use in platformio arduino on an ESP project
+ * v2 changed to standard C++ 
+ *  
+ */
+
 
 #ifndef SPOBJECTSTORE_H_
 #define SPOBJECTSTORE_H_
