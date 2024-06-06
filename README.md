@@ -191,4 +191,4 @@ Any callback function used has to match ```typedef sposCompareCB``` (which is st
 
 ## Licence
 MIT licence  
-Copyright &copy; 2024 krokoreit (krokoreit@gnail.com)
+Copyright &copy; 2024 by krokoreit
