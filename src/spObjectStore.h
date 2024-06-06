@@ -421,8 +421,8 @@ void spObjectStore<T>::setAdded(bool added)
   _added = added;
   size_t count = _keys.size();
   if (added && (count + 2  > _keys.capacity())){
-    _keys.reserve(count + 10);
-    _objects.reserve(count + 10);
+    _keys.reserve(count + _capaInc);
+    _objects.reserve(count + _capaInc);
   }
 }
 
