@@ -183,3 +183,6 @@ Any callback function used has to match ```typedef sposCompareCB``` (which is st
 \- &gt;0 when A has a higher value
 
 
+## Licence
+MIT licence
+
