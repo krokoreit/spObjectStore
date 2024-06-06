@@ -25,141 +25,107 @@ Enjoy
 Use with any class type like
 
 ```cpp
-    // stores objects of 'myObject' class
-    spObjectStore<myObject> myObjectStore;
+// stores objects of 'myObject' class
+spObjectStore<myObject> myObjectStore;
 ```
 
 and
 
 ```cpp
-    class myObject {
-      public:
-        String _text = "";
-        uint32_t _number = 0;
-          ...
-        myObject();
-        myObject(String text);
-        myObject(String text, uint32_t number);
-          ...
-    };
+class myObject 
+{
+  public:
+    std::string _text = "";
+    uint32_t _number = 0;
+      . . .
+    myObject();
+    myObject(std::string text);
+    myObject(std::string text, uint32_t number);
+      . . .
+};
 ```
 
+</br>
+
 ### Adding Objects
-
-
-There are three ways to add objects
- <ol type="1">
-  <li>create and add the object in one shot with an id only (and - if required - set other object properties later)  
-In this case it is important that the class of objects to store has one constructor without parameters, i.e. myObject(){..}, as this constructor is called indirectly by calling the container's functions</br>
-<code>
-    myObject obj = myObjectStore.addObj("newID");
-</code></br>
-  or</br>
-<code>
-    myObject obj = myObjectStore.getObj("newID", true);
-</code></br>
-Note that <code>getObj()</code> function is used with the second parameter 'addIfNeeded' set to true, which will create and add the object before returning it.</br>
-</li>
-  <li>create and add the object in one shot with an id and the object's properties</br>
-In this case and alternative object constructors with parameters defined, the objects can be created also by providing the arguments when calling the container's functions like</br>
-<code>
-    myObject obj = myObjectStore.addObj("newID", "my text", 1234);
-</code></br>
-or</br>
-<code>
-    myObject obj = myObjectStore.getObj("newID", true, "my text", 1234);
-</code></br>
-</li>
-  <li>create the object and then place it into the container</br>
-<code>
-    myObject obj("my text", 1234);
-    myObjectStore.setObj("new_or_old_ID", obj);
-</code></br>
-The container's ```setObj()``` function will replace the object of an existing id or otherwise create a new entry.
-</li>
-</ol></br>
 
 There are three ways to add objects
 
 1) create and add the object in one shot with an id only (and - if required - set other object properties later)  
-In this case it is important that the class of objects to store has one constructor without parameters, i.e. myObject(){..}, as this constructor is called indirectly by calling the container's functions  
-  ```cpp
+In this case it is important that the class of objects to store has one constructor without parameters, i.e. myObject(){..}, as this constructor is called indirectly by calling the container's functions
+    ```cpp
     myObject obj = myObjectStore.addObj("newID");
-  ``` 
-  or 
-```cpp
+    ```
+    or 
+    ```cpp
     myObject obj = myObjectStore.getObj("newID", true);
-```
-Note that ```getObj()``` function is used with the second parameter 'addIfNeeded' set to true, which will create and add the object before returning it.
+    ```
+    Note that ```getObj()``` function is used with the second parameter 'addIfNeeded' set to true, which will create and add the object before returning it.
 
 2) create and add the object in one shot with an id and the object's properties  
 In this case and alternative object constructors with parameters defined, the objects can be created also by providing the arguments when calling the container's functions like
-
-```cpp
+    ```cpp
     myObject obj = myObjectStore.addObj("newID", "my text", 1234);
-```
-
-or
-
-```cpp
+    ```
+    or
+    ```cpp
     myObject obj = myObjectStore.getObj("newID", true, "my text", 1234);
-```
+    ```
 
-3) create the object and then place it into the container  
-
-```cpp
+3) create the object and then place it into the container
+    ```cpp
     myObject obj("my text", 1234);
     myObjectStore.setObj("new_or_old_ID", obj);
-```
+    ```
+    The container's ```setObj()``` function will replace the object of an existing id or otherwise create a new entry.
 
-The container's ```setObj()``` function will replace the object of an existing id or otherwise create a new entry.
 
-
-For all three methods (```addObj()```, ```getObj()``` and ```setObj()```), the status returned with
-
+</br>For all three methods (```addObj()```, ```getObj()``` and ```setObj()```), the status returned with
 ```cpp
-    bool added = myObjectStore.getAdded();
+bool added = myObjectStore.getAdded();
 ```
-
 represents wether a new entry was added in the last function call.
 
-
+</br>
 
 ### Deleting Objects 
 
 Objects will be deleted from the store with
 
 ```cpp
-    myObjectStore.deleteObj("newID");
+myObjectStore.deleteObj("newID");
 ```
 
 To delete all objects, use
 
 ```cpp
-    myObjectStore.reset();
+myObjectStore.reset();
 ```
+
+</br>
 
 ### Iterate 
 
 To loop through the stored objects, use the container's ```forEach()``` method(s) with
 
 ```cpp
-    myObjectStore.forEach(iterate_CB);
+myObjectStore.forEach(iterate_CB);
 ```
 
 whereby the callback function is either  
 ```cpp
-    // calling with each object in the container
-    bool iterate_CB(myObject obj) { .. }  
+// calling with each object in the container
+bool iterate_CB(myObject obj) { .. }  
 ```
 or
 
 ```cpp
-    // calling with each identifier & object pair in the container
-    bool iterate_CB(String id, myObject obj) { .. }  
+// calling with each identifier & object pair in the container
+bool iterate_CB(String id, myObject obj) { .. }  
 ```
-
 Note that the callback function must return a boolean, i.e. true to continue or false to stop looping.
+
+</br>
 
 ### Storage Capacity
 The spObjectStore class is optimized to expand it's capacity in increments (default is 10) whenever an entry is added and the current capacity is used up. This avoids the reallocation of memory and copy / move operations of the stored objects each time a new object is added, i.e. it delays thissuch costly process to every 10th addition of an object. However, using an increment > 1 reserves more memory space than actually needed at that point in time and could cause issues with large objects.  
@@ -172,6 +138,8 @@ The current increment value can be retrieved with
 ```cpp
     int32_t num = myObjectStore.getCapaInc();
 ```
+
+</br>
 
 ### Sorting
 
@@ -212,6 +180,7 @@ Any callback function used has to match ```typedef sposCompareCB``` (which is st
 \- 0 when A and B are the same  
 \- &gt;0 when A has a higher value
 
+</br>
 
 ## Licence
 MIT licence
