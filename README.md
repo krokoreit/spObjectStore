@@ -10,6 +10,8 @@ As the storage container is designed as a templated class, meaning any class typ
 
 The storage container can be created to store objects without sorting, sorting them in A to Z order or sorting them by a custom callback function, which allows you to sort items in any way you want.
 
+The .cpp files in the /examples folder demonstrate the various options to use the functions.
+
 
 Enjoy
 
