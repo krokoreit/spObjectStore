@@ -3,7 +3,7 @@
  * @author krokoreit (krokoreit@gmail.com)
  * @brief a templated class to store, retrieve, delete and iterate through objects based on an id
  * @version 2.0.0
- * @date 2024-06-06
+ * @date 2024-06-07
  * 
  * @copyright Copyright (c) 2024
  * 
@@ -27,7 +27,6 @@
 #include <string.h>
 #include <functional>
 #include <vector>
-
 
 
 /**
@@ -73,7 +72,6 @@ class spObjectStore
    public:
     typedef std::function<bool(T*)> forEach_V_callback;
     typedef std::function<bool(std::string, T*)> forEach_KV_callback;
-
     spObjectStore();  // unsorted
     spObjectStore(bool sorted);  // if true, sorted by strcmp = A to Z
     spObjectStore(sposCompareCB callback);  // sorted by whatever you do with key / id values comparison
