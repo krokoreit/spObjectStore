@@ -1,6 +1,6 @@
 # spObjectStore Library
 
-This library provides a container object to store, retrieve or interate through objects based on an identifier, whereby  
+This library provides a container object to store, retrieve or iterate through objects based on an identifier, whereby  
 \- these objects being stored are of one specific class  
 \- and such class being defined when creating the storage container object
 
@@ -188,7 +188,7 @@ class myClass{
 }
 ```
 
-In order to activate the sorting, the 2nd and 3rd contructor option of spObjectStore should be directly linked in the owner's class constructor, i.e.
+In order to activate the sorting, the 2nd and 3rd constructor option of spObjectStore should be directly linked in the owner's class constructor, i.e.
 ```cpp
 myClass::myClass() : myObjectStore(true) {
   .. 
