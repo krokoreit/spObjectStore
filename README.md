@@ -21,6 +21,15 @@ Enjoy
 
 ## Usage & API
 
+### Content
+* [Storage Container & Class of Objects to store](#storage-container--class-of-objects-to-store)
+* [Adding Objects](#adding-objects)
+* [Retrieving Objects](#retrieving-objects)
+* [Deleting Objects](#deleting-objects)
+* [Iterate](#iterate)
+* [Storage Capacity](#storage-capacity)
+* [Sorting](#sorting)
+
 ### Storage Container & Class of Objects to store
 Use with any class type like
 
@@ -44,6 +53,8 @@ class myObject
       . . .
 };
 ```
+
+<div style="text-align: right"><a href="#content">&#8679; back up to content list</a></div>
 
 </br>
 
@@ -86,6 +97,8 @@ bool added = myObjectStore.getAdded();
 ```
 represents wether a new entry was added in the last function call.
 
+<div style="text-align: right"><a href="#content">&#8679; back up to content list</a></div>
+
 </br>
 
 ### Retrieving Objects 
@@ -95,6 +108,8 @@ Objects will be retrieved from the store with
 myObject* pObj = myObjectStore.getObj("findID");
 ```
 which will return a pointer to the found object or a nullptr if the object with the given key does not exist. 
+
+<div style="text-align: right"><a href="#content">&#8679; back up to content list</a></div>
 
 </br>
 
@@ -110,6 +125,8 @@ To delete all objects, use
 ```cpp
 myObjectStore.reset();
 ```
+
+<div style="text-align: right"><a href="#content">&#8679; back up to content list</a></div>
 
 </br>
 
@@ -134,6 +151,8 @@ bool iterate_CB(String id, myObject* pObj) { .. }
 ```
 Note that the callback function must return a boolean, i.e. true to continue or false to stop looping.
 
+<div style="text-align: right"><a href="#content">&#8679; back up to content list</a></div>
+
 </br>
 
 ### Storage Capacity
@@ -145,6 +164,8 @@ Use a higher number in order to optimize speed over memory (i.e. when having man
 ```cpp
 int32_t num = myObjectStore.getCapaInc();
 ```
+
+<div style="text-align: right"><a href="#content">&#8679; back up to content list</a></div>
 
 </br>
 
@@ -188,6 +209,8 @@ Any callback function used has to match ```typedef sposCompareCB``` (which is st
 | &lt;0 | A has lower value than B |
 | 0 | A equal B |
 | &gt;0 | A has higher value than B |
+
+<div style="text-align: right"><a href="#content">&#8679; back up to content list</a></div>
 
 </br>
 
