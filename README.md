@@ -16,7 +16,7 @@ The .cpp files in the /examples folder demonstrate the various options to use th
 Enjoy
 
 &emsp;krokoreit  
-&emsp;&emsp;&emsp;<img src="assets/krokoreit03_Github.png" width="60"/>
+&emsp;&emsp;&emsp;<img src="assets/krokoreit-01.svg" width="140"/>
 
 
 ## Usage & API
@@ -191,6 +191,6 @@ Any callback function used has to match ```typedef sposCompareCB``` (which is st
 
 </br>
 
-## Licence
-MIT licence  
+## License
+MIT license  
 Copyright &copy; 2024 by krokoreit
