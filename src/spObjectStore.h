@@ -2,8 +2,8 @@
  * @file spObjectStore.h
  * @author krokoreit (krokoreit@gmail.com)
  * @brief a templated container class to add, retrieve, delete and iterate through objects
- * @version 2.1.0
- * @date 2024-08-22
+ * @version 2.1.1
+ * @date 2024-10-23
  * 
  * @copyright Copyright (c) 2024
  * 
@@ -19,6 +19,7 @@
  *          - added comparison callback
  *          - changed sorting to enum and amended constructor
  *          - remodelled callback typedefs
+ * v2.1.1   eliminated printf() used
  *   
  */
 
@@ -419,9 +420,6 @@ void spObjectStore<T>::setCapacityInc(size_t newInc)
 {
   if (newInc > 1){
     _capaInc = newInc;
-
-    printf("setCapaInc to %d, current capa is %d\n", newInc, _ids.capacity());
-
   }
 }
 
