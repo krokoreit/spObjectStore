@@ -21,7 +21,7 @@
  *          - remodelled callback typedefs
  * v2.1.1   eliminated printf() used, set version
  * v2.1.2   change over to new version
- * v2.1.3   current master
+ * v2.1.3   align versioning for git
  *   
  */
 

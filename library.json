@@ -2,7 +2,7 @@
   "name": "spObjectStore",
   "description": "A templated class to store, retrieve, delete and iterate through objects based on an id.",
   "keywords": "cpp, library, storeage-container, vector, objects, container-object, krokoreit",
-  "version": "2.1.0",
+  "version": "2.1.3",
   "authors":
   {
     "name": "krokoreit",
