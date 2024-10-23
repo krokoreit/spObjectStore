@@ -19,7 +19,7 @@
  *          - added comparison callback
  *          - changed sorting to enum and amended constructor
  *          - remodelled callback typedefs
- * v2.1.1   eliminated printf() used
+ * v2.1.1   eliminated printf() used, set version
  *   
  */
 
