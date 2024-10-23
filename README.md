@@ -14,7 +14,7 @@ The following are explanations about all public functions and their usage. Addit
 
 One general point to remember is that the objects to store are in fact created and managed by the container class. Several functions will therefore return a pointer to these objects. Note that these pointers are valid at this point in time and may become invalid through further operation. Specifically after recreating the content with a new sorting method, any previously obtained pointers are no longer valid.
 
-The library also contains several documented code examples, serving as a basis to learn the various functions. See the .cpp files in the /examples folder for demonstration.
+The library also contains several documented code examples, serving as a basis to learn the various functions. See the .cpp files in the /examples folder for demonstration. Or for a more complex example, see my [spConfig library](https://github.com/krokoreit/spConfig).
 
 Check out my [introduction video on Youtube](https://youtu.be/uBObqJEnzEk).
 

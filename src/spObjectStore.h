@@ -2,7 +2,7 @@
  * @file spObjectStore.h
  * @author krokoreit (krokoreit@gmail.com)
  * @brief a templated container class to add, retrieve, delete and iterate through objects
- * @version 2.1.1
+ * @version 2.1.3
  * @date 2024-10-23
  * 
  * @copyright Copyright (c) 2024
@@ -20,6 +20,8 @@
  *          - changed sorting to enum and amended constructor
  *          - remodelled callback typedefs
  * v2.1.1   eliminated printf() used, set version
+ * v2.1.2   change over to new version
+ * v2.1.3   current master
  *   
  */
 
